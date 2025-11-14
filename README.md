@@ -1,6 +1,6 @@
 # Voice - AI-Powered Voice Assistant
 
-A real-time, streaming multimodal voice assistant powered by Google's Agent Development Kit (ADK) and Vertex AI Live API with Gemini 2.0 Flash Live model.
+A real-time, streaming multimodal voice assistant powered by Google's Agent Development Kit (ADK) and Vertex AI Live API with Gemini 2.5 Flash Live model.
 
 ## 🎯 Overview
 
@@ -161,8 +161,9 @@ This will start a voice assistant that listens to your microphone and responds w
 
 ### Model Configuration
 
-- Default model: `gemini-2.0-flash-live-preview-04-09`
-- Voice: Aoede (configurable)
+- Server model: `gemini-live-2.5-flash-preview-native-audio-09-2025` (Web application)
+- Standalone model: `gemini-2.0-flash-live-preview-04-09` (CLI application)
+- Voice: Puck (server) / Aoede (standalone) - configurable
 - Response modalities: Audio
 - Streaming mode: Bidirectional
 
@@ -199,7 +200,7 @@ This project is licensed under the MIT License.
 
 - Built with [Google Agent Development Kit (ADK)](https://github.com/google/adk)
 - Powered by [Vertex AI](https://cloud.google.com/vertex-ai)
-- Uses [Gemini 2.0 Flash Live API](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/gemini)
+- Uses [Gemini 2.5 Flash Live API](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/gemini)
 
 ## 📞 Support
 
