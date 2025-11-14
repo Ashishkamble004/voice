@@ -123,14 +123,27 @@ body {
   padding: 0;
 }
 
-/* Hero Section - Acko Style */
+/* Hero Section - Acko Style with Curved Bottom */
 .hero-section {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: var(--white);
-  padding: 4rem 2rem;
+  padding: 5rem 2rem 7rem;
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+
+/* Curved bottom edge - wave effect */
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: var(--white);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  transform: translateY(50%);
 }
 
 .hero-section::before {
@@ -145,21 +158,25 @@ body {
 }
 
 .hero-content h1 {
-  font-size: 3rem;
+  font-size: 3.25rem;
   font-weight: 800;
-  margin-bottom: 1rem;
-  line-height: 1.1;
+  margin-bottom: 1.25rem;
+  line-height: 1.15;
   position: relative;
   z-index: 1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   margin-bottom: 2rem;
-  opacity: 0.95;
+  opacity: 0.98;
   font-weight: 400;
   position: relative;
   z-index: 1;
+  letter-spacing: -0.01em;
+  line-height: 1.6;
 }
 
 .hero-features {
@@ -207,7 +224,7 @@ body {
 
 /* Quick Actions - Modern Cards */
 .quick-actions {
-  padding: 4rem 2rem;
+  padding: 5rem 2rem 4rem;
   background: var(--light-bg);
 }
 
@@ -635,11 +652,21 @@ body {
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .hero-content h1 {
-    font-size: 2rem;
+    font-size: 2.25rem;
+    letter-spacing: -0.015em;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  .hero-section {
+    padding: 4rem 1.5rem 6rem;
+  }
+
+  .hero-section::after {
+    height: 80px;
   }
 
   .hero-features {
@@ -653,7 +680,7 @@ body {
 
   .quick-actions,
   .how-it-works {
-    padding: 3rem 1.5rem;
+    padding: 4rem 1.5rem 3rem;
   }
 
   .quick-actions h2,
@@ -693,19 +720,30 @@ body {
   }
 
   .hero-section {
-    padding: 3rem 1.5rem;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .hero-section::after {
+    height: 60px;
   }
 
   .hero-content h1 {
-    font-size: 1.75rem;
+    font-size: 1.85rem;
+    letter-spacing: -0.01em;
   }
 
   .hero-subtitle {
-    font-size: 0.9375rem;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 
   .car-illustration {
     font-size: 3rem;
+  }
+
+  .quick-actions,
+  .how-it-works {
+    padding: 3.5rem 1.5rem 2.5rem;
   }
 
   .quick-actions h2,
