@@ -2,30 +2,28 @@ import React, { useState, useRef, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [isRecording, setIsRecording] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('disconnected');
   const [errorMessage, setErrorMessage] = useState('');
-  const [transcript, setTranscript] = useState('');
-  const [claimType, setClaimType] = useState('health');
+  const [showAssistant, setShowAssistant] = useState(false);
+  const [messages, setMessages] = useState([]);
   
   const videoRef = useRef(null);
   const audioContextRef = useRef(null);
   const mediaStreamRef = useRef(null);
   const wsRef = useRef(null);
-  const audioChunksRef = useRef([]);
 
   // Initialize camera and audio
   const startMultimodalCapture = async () => {
     try {
       setErrorMessage('');
       
-      // Request camera and audio access
+      // Request camera and audio access - back camera for car inspection
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
-          width: { ideal: 640 },
-          height: { ideal: 480 },
-          facingMode: 'user'
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+          facingMode: { ideal: 'environment' }  // Use back camera on mobile
         },
         audio: {
           echoCancellation: true,
@@ -42,14 +40,21 @@ function App() {
       }
       
       setIsCameraActive(true);
-      setIsRecording(true);
+      setShowAssistant(true);
+      
+      // Add initial greeting message
+      setMessages([{
+        type: 'assistant',
+        text: 'Hello! I\'m your Cymbal Auto Insurance AI assistant. Please show me the damaged area of your vehicle and describe what happened.',
+        timestamp: new Date()
+      }]);
       
       // Connect to WebSocket and start streaming
       connectWebSocket(stream);
       
     } catch (error) {
       console.error('Error accessing media devices:', error);
-      setErrorMessage('Failed to access camera or microphone. Please grant permissions.');
+      setErrorMessage('Failed to access camera or microphone. Please grant permissions and try again.');
     }
   };
 
@@ -73,7 +78,12 @@ function App() {
           const data = JSON.parse(event.data);
           
           if (data.type === 'transcript') {
-            setTranscript(prev => prev + ' ' + data.text);
+            // Add to messages
+            setMessages(prev => [...prev, {
+              type: 'assistant',
+              text: data.text,
+              timestamp: new Date()
+            }]);
           } else if (data.type === 'audio') {
             // Play received audio
             playAudio(data.audio);
@@ -206,8 +216,8 @@ function App() {
       wsRef.current = null;
     }
     
-    setIsRecording(false);
     setIsCameraActive(false);
+    setShowAssistant(false);
     setConnectionStatus('disconnected');
   };
 
@@ -223,140 +233,179 @@ function App() {
       {/* Header */}
       <header className="app-header">
         <div className="logo-section">
-          <div className="logo">🛡️ SafeGuard Insurance</div>
-          <span className="logo-badge">AI Assistant</span>
+          <div className="logo">🚗 Cymbal Auto Insurance</div>
+          <span className="logo-badge">Vehicle Claims</span>
         </div>
-        <div className="connection-status">
-          <span className={`status-indicator ${connectionStatus}`}></span>
-          <span className="status-text">{connectionStatus}</span>
-        </div>
+        {showAssistant && (
+          <div className="connection-status">
+            <span className={`status-indicator ${connectionStatus}`}></span>
+          </div>
+        )}
       </header>
 
       {/* Main Content */}
       <main className="main-content">
-        {/* Claim Type Selection */}
-        <section className="claim-type-section">
-          <h2>Select Claim Type</h2>
-          <div className="claim-types">
-            <button 
-              className={`claim-btn ${claimType === 'health' ? 'active' : ''}`}
-              onClick={() => setClaimType('health')}
-            >
-              <span className="icon">🏥</span>
-              <span>Health Insurance</span>
-            </button>
-            <button 
-              className={`claim-btn ${claimType === 'vehicle' ? 'active' : ''}`}
-              onClick={() => setClaimType('vehicle')}
-            >
-              <span className="icon">🚗</span>
-              <span>Vehicle Insurance</span>
-            </button>
-            <button 
-              className={`claim-btn ${claimType === 'life' ? 'active' : ''}`}
-              onClick={() => setClaimType('life')}
-            >
-              <span className="icon">💼</span>
-              <span>Life Insurance</span>
-            </button>
-            <button 
-              className={`claim-btn ${claimType === 'home' ? 'active' : ''}`}
-              onClick={() => setClaimType('home')}
-            >
-              <span className="icon">🏠</span>
-              <span>Home Insurance</span>
-            </button>
-          </div>
-        </section>
+        {!showAssistant ? (
+          <>
+            {/* Hero Section */}
+            <section className="hero-section">
+              <div className="hero-content">
+                <h1>Vehicle Damage Claims Made Easy</h1>
+                <p className="hero-subtitle">
+                  Get instant claim assistance with our AI-powered virtual agent
+                </p>
+                <div className="hero-features">
+                  <div className="hero-feature">
+                    <span className="feature-icon-small">📸</span>
+                    <span>Show damage via camera</span>
+                  </div>
+                  <div className="hero-feature">
+                    <span className="feature-icon-small">🤖</span>
+                    <span>AI damage assessment</span>
+                  </div>
+                  <div className="hero-feature">
+                    <span className="feature-icon-small">⚡</span>
+                    <span>Instant claim processing</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="hero-image">
+                <div className="car-illustration">
+                  🚙
+                </div>
+              </div>
+            </section>
 
-        {/* Video and Audio Interface */}
-        <section className="media-section">
-          <div className="video-container">
-            <video 
-              ref={videoRef}
-              autoPlay 
-              playsInline 
-              muted
-              className="video-preview"
-            />
-            {!isCameraActive && (
-              <div className="video-placeholder">
-                <div className="placeholder-icon">📹</div>
-                <p>Camera Preview</p>
+            {/* Quick Actions */}
+            <section className="quick-actions">
+              <h2>File a Claim</h2>
+              <div className="action-cards">
+                <div className="action-card highlight">
+                  <div className="card-icon">🔧</div>
+                  <h3>Accident Damage</h3>
+                  <p>Report collision or accident damage</p>
+                </div>
+                <div className="action-card">
+                  <div className="card-icon">🌧️</div>
+                  <h3>Weather Damage</h3>
+                  <p>Hail, flood, or storm damage</p>
+                </div>
+                <div className="action-card">
+                  <div className="card-icon">💥</div>
+                  <h3>Vandalism</h3>
+                  <p>Theft or vandalism claims</p>
+                </div>
+              </div>
+            </section>
+
+            {/* How It Works */}
+            <section className="how-it-works">
+              <h2>How It Works</h2>
+              <div className="steps">
+                <div className="step">
+                  <div className="step-number">1</div>
+                  <h3>Start Virtual Agent</h3>
+                  <p>Click the chat button to connect</p>
+                </div>
+                <div className="step">
+                  <div className="step-number">2</div>
+                  <h3>Show Damage</h3>
+                  <p>Point camera at damaged areas</p>
+                </div>
+                <div className="step">
+                  <div className="step-number">3</div>
+                  <h3>Get Assessment</h3>
+                  <p>AI analyzes and processes claim</p>
+                </div>
+              </div>
+            </section>
+
+            {errorMessage && (
+              <div className="error-message">
+                <span className="error-icon">⚠️</span>
+                {errorMessage}
               </div>
             )}
-          </div>
+          </>
+        ) : (
+          <>
+            {/* Assistant Interface */}
+            <section className="assistant-interface">
+              <div className="assistant-header">
+                <h2>🤖 AI Claims Assistant</h2>
+                <button className="close-assistant" onClick={stopRecording}>
+                  ✕
+                </button>
+              </div>
+              
+              {/* Video Feed */}
+              <div className="video-container">
+                <video 
+                  ref={videoRef}
+                  autoPlay 
+                  playsInline 
+                  muted
+                  className="video-preview"
+                />
+                {!isCameraActive && (
+                  <div className="video-placeholder">
+                    <div className="placeholder-icon">📹</div>
+                    <p>Initializing camera...</p>
+                  </div>
+                )}
+                <div className="video-overlay">
+                  <div className="recording-indicator">
+                    <span className="rec-dot"></span>
+                    <span>LIVE</span>
+                  </div>
+                  <div className="video-hint">
+                    Point camera at damaged area
+                  </div>
+                </div>
+              </div>
 
-          <div className="controls-section">
-            {!isRecording ? (
-              <button 
-                className="primary-btn start-btn"
-                onClick={startMultimodalCapture}
-              >
-                <span className="btn-icon">🎙️</span>
-                Start Claim Assistant
-              </button>
-            ) : (
-              <button 
-                className="danger-btn stop-btn"
-                onClick={stopRecording}
-              >
-                <span className="btn-icon">⏹️</span>
-                Stop Recording
-              </button>
-            )}
-          </div>
+              {/* Messages */}
+              <div className="messages-container">
+                {messages.map((msg, index) => (
+                  <div key={index} className={`message ${msg.type}`}>
+                    <div className="message-icon">
+                      {msg.type === 'assistant' ? '🤖' : '👤'}
+                    </div>
+                    <div className="message-content">
+                      <p>{msg.text}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
 
-          {errorMessage && (
-            <div className="error-message">
-              <span className="error-icon">⚠️</span>
-              {errorMessage}
-            </div>
-          )}
-        </section>
-
-        {/* Transcript Section */}
-        {transcript && (
-          <section className="transcript-section">
-            <h3>Conversation Transcript</h3>
-            <div className="transcript-box">
-              {transcript}
-            </div>
-          </section>
+              {/* Controls */}
+              <div className="assistant-controls">
+                <div className="control-hint">
+                  🎤 Speak or show damage to continue
+                </div>
+              </div>
+            </section>
+          </>
         )}
-
-        {/* Features Section */}
-        <section className="features-section">
-          <h2>How It Works</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">🎤</div>
-              <h3>Voice Input</h3>
-              <p>Speak naturally to describe your claim or ask questions</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">📸</div>
-              <h3>Visual Evidence</h3>
-              <p>Show documents or damage through your camera</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🤖</div>
-              <h3>AI Assistant</h3>
-              <p>Get instant responses powered by Gemini AI</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">⚡</div>
-              <h3>Quick Claims</h3>
-              <p>File and track claims in minutes, not hours</p>
-            </div>
-          </div>
-        </section>
       </main>
+
+      {/* Floating Chat Button */}
+      {!showAssistant && (
+        <button 
+          className="floating-chat-btn"
+          onClick={startMultimodalCapture}
+          aria-label="Start virtual agent"
+        >
+          <span className="chat-icon">💬</span>
+          <span className="chat-text">Start Claim</span>
+        </button>
+      )}
 
       {/* Footer */}
       <footer className="app-footer">
-        <p>© 2024 SafeGuard Insurance. Powered by AI Technology</p>
-        <p className="disclaimer">This is a demo application. No actual claims are processed.</p>
+        <p>© 2024 Cymbal Auto Insurance. Powered by AI Technology</p>
+        <p className="disclaimer">Demo application for vehicle damage claims</p>
       </footer>
     </div>
   );

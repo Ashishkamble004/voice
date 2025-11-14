@@ -1,17 +1,17 @@
 # SafeGuard Insurance - AI Assistant
 
-A React-based mobile web application for insurance claims processing with multimodal (camera + audio) input capabilities, powered by Google Gemini Live API.
+A React-based mobile web application for vehicle damage claims processing with multimodal (camera + audio) input capabilities, powered by Google Gemini Live API.
 
 ## 🎯 Overview
 
-This is an insurance-focused web application inspired by modern Indian insurance companies like Acko. It provides an AI-powered assistant that can:
+This is a vehicle insurance-focused web application for Cymbal Auto Insurance. It provides an AI-powered assistant that can:
 
 - 📱 Access camera for document/damage verification
 - 🎤 Process voice input for natural conversations
 - 🤖 Real-time AI responses using Gemini Live API
-- 🏥 Handle multiple insurance types (Health, Vehicle, Life, Home)
-- 📄 Analyze documents and images shown via camera
-- 🌐 Mobile-first responsive design
+- 🚗 Handle vehicle insurance claims and damage assessment
+- 📄 Analyze vehicle damage shown via camera
+- 🌐 Mobile-first responsive design for easy phone use
 
 ## 🏗️ Architecture
 
@@ -96,30 +96,30 @@ The React app will open at `http://localhost:3000`
 ## 📱 Usage
 
 1. **Open the app** in your mobile browser (or desktop for testing)
-2. **Select claim type** (Health, Vehicle, Life, or Home)
-3. **Click "Start Claim Assistant"** to begin
-4. **Grant permissions** for camera and microphone when prompted
+2. **Click "Start Claim"** floating button to begin
+3. **Grant permissions** for camera and microphone when prompted
+4. **Point camera at damage** - Use back camera to show damaged vehicle areas
 5. **Interact with AI**:
-   - Speak to describe your claim
-   - Show documents or damage via camera
-   - Get instant AI-powered responses
+   - Speak to describe your claim and the incident
+   - Show the damaged areas via camera
+   - Get instant AI-powered damage assessment and guidance
 
 ## 🎨 Features
 
 ### Frontend (React)
 - Mobile-first responsive design
-- Insurance-themed UI with Acko-inspired styling
-- Real-time camera preview
+- Vehicle insurance-themed UI for Cymbal Auto Insurance
+- Real-time camera preview with back camera support
 - WebSocket communication for audio/video streaming
-- Conversation transcript display
-- Multiple insurance type selection
+- Conversation messages display
+- Floating chat button for easy access
 
 ### Backend (Python)
 - WebSocket server for real-time communication
 - Integration with Google Gemini Live API
 - Audio and video processing
 - Multimodal input handling
-- Insurance-specific system instructions
+- Vehicle damage assessment with specialized system instructions
 
 ## 🔧 Configuration
 
@@ -218,8 +218,9 @@ This project is provided as-is for demonstration purposes.
 ## 🙏 Acknowledgments
 
 - Built with [Google Gemini Live API](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini)
-- Inspired by [Acko Insurance](https://www.acko.com/) UI/UX
+- Inspired by modern insurance companies like Acko and Lemonade
 - Based on [gen-ai-livestream](https://github.com/SaschaHeyer/gen-ai-livestream) reference implementation
+- Cymbal Auto Insurance is a fictional company for demonstration purposes
 
 ## 📞 Support
 
