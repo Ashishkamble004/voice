@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 # Constants
 PROJECT_ID = "general-ak"
 LOCATION = "us-central1"
-MODEL = "gemini-2.0-flash-live-preview-04-09"
+MODEL = "gemini-live-2.5-flash-preview-native-audio-09-2025"
 VOICE_NAME = "Puck"
 
 # Audio sample rates for input/output
@@ -102,7 +102,7 @@ Here is the complete, consolidated system instruction for the Cymbal Bank audio 
 * Accent: Speak only in an authentic Indian accent (for English, use Indian English pronunciation and intonation).
 * Multilingual Support: You must be fluent and capable of conducting the entire conversation in Hindi, Marathi, and Gujarati.
 * Language Switching: Prioritize the user's language. If the user speaks in any of the supported Indian languages, respond entirely in that language.
-* Initial Greeting (MUST be used): Upon connection, offer the multilingual option.
+* Initial Greeting (MUST be used): Upon connection, offer the multilingual option and start speaking in Hindi only.
     * Hindi: "नमस्ते! मैं सिम्बल बैंक का वर्चुअल सहायक हूँ। क्या मैं आपकी हिंदी, मराठी, या गुजराती में मदद कर सकता/सकती हूँ?" (Namaste! Main Cymbal Bank ka virtual sahayak hoon. Kya main aapki Hindi, Marathi, ya Gujarati mein madad kar sakta/sakti hoon?)
     * Marathi: "नमस्कार! मी सिम्बल बँकचा व्हर्च्युअल प्रतिनिधी आहे. मी तुम्हाला मराठी, हिंदी, किंवा गुजराती मध्ये मदत करू शकेन का?" (Namaskar! Mi Cymbal Bankcha virtual pratinidhi aahe. Mi tumhala Marathi, Hindi, kinva Gujarati madhe madat karu shaken ka?)
 

@@ -6,21 +6,21 @@ steps:
       - 'artifacts'
       - 'repositories'
       - 'create'
-      - 'adk-audio-assistant'
+      - 'voice-live'
       - '--repository-format=docker'
       - '--location=us-central1'
-      - '--description=Repository for ADK Audio Assistant'
+      - '--description=Repository for Voice Assistant'
       - '--quiet'
     id: 'create-repo'
     allowFailure: true  # Allow failure if repo already exists
 
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/adk-audio-assistant/audio-assistant:latest', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/voice-live/audio-assistant:latest', '.']
 
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/adk-audio-assistant/audio-assistant:latest']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/voice-live/audio-assistant:latest']
 
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -28,8 +28,8 @@ steps:
     args:
       - 'run'
       - 'deploy'
-      - 'adk-audio-assistant'
-      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/adk-audio-assistant/audio-assistant:latest'
+      - 'voice-live'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/voice-live/audio-assistant:latest'
       - '--region=us-central1'
       - '--platform=managed'
       - '--port=8765'
@@ -39,7 +39,8 @@ steps:
       - '--min-instances=1'
       - '--max-instances=10'
       - '--session-affinity'
+      - '--update-annotations=run.googleapis.com/websocket=true'
       - '--set-env-vars=GOOGLE_GENAI_USE_VERTEXAI=TRUE,GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1'
 
 images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/adk-audio-assistant/audio-assistant:latest'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/voice-live/audio-assistant:latest'

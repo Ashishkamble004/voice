@@ -3,7 +3,7 @@
  */
 
 class AudioClient {
-    constructor(serverUrl = 'ws://localhost:8765') {
+    constructor(serverUrl = 'wss://voice-live-769002985772.us-central1.run.app:8765') {
         this.serverUrl = serverUrl;
         this.ws = null;
         this.recorder = null;

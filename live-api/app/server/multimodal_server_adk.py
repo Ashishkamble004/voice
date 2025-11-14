@@ -110,7 +110,8 @@ class MultimodalADKServer(BaseWebSocketServer):
                     prebuilt_voice_config=types.PrebuiltVoiceConfig(
                         voice_name=VOICE_NAME
                     )
-                )
+                ),
+                enable_automatic_vad=True,  # Enable Automatic Voice Activity Detection
             ),
             response_modalities=["AUDIO"],
             output_audio_transcription=types.AudioTranscriptionConfig(),
