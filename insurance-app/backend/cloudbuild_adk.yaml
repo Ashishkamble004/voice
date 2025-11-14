@@ -1,0 +1,49 @@
+steps:
+  # Create Artifact Registry repository if it doesn't exist
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'artifacts'
+      - 'repositories'
+      - 'create'
+      - 'cymbal-auto-insurance'
+      - '--repository-format=docker'
+      - '--location=us-central1'
+      - '--description=Repository for Cymbal Auto Insurance App'
+      - '--quiet'
+    id: 'create-repo'
+    allowFailure: true  # Allow failure if repo already exists
+
+  # Build the container image (ADK version)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/cymbal-auto-insurance/insurance-backend-adk:latest', '-f', 'Dockerfile.adk', '.']
+
+  # Push the container image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/cymbal-auto-insurance/insurance-backend-adk:latest']
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'cymbal-auto-backend-adk'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/cymbal-auto-insurance/insurance-backend-adk:latest'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--port=8765'
+      - '--allow-unauthenticated'
+      - '--memory=2Gi'
+      - '--cpu=2'
+      - '--min-instances=0'
+      - '--max-instances=10'
+      - '--session-affinity'
+      - '--execution-environment=gen2'
+      - '--set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=us-central1,GEMINI_MODEL=gemini-live-2.5-flash-preview-native-audio-09-2025,WEBSOCKET_PORT=8765'
+
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/cymbal-auto-insurance/insurance-backend-adk:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
