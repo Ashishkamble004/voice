@@ -121,7 +121,7 @@ This will start a voice assistant that listens to your microphone and responds w
 ### Technology Stack
 
 1. **Google ADK**: Agent Development Kit for building AI agents with tool integration
-2. **Vertex AI Live API**: Real-time streaming API for Gemini 2.0 Flash Live model
+2. **Vertex AI Live API**: Real-time streaming API for Gemini 2.5 Flash Live model
 3. **WebSockets**: Bidirectional communication between client and server
 4. **PyAudio**: Audio capture and playback in Python
 5. **Async/Await**: Python's asyncio for concurrent task management
