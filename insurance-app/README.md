@@ -1,4 +1,4 @@
-# SafeGuard Insurance - AI Assistant
+# Cymbal Auto Insurance - AI Assistant
 
 A React-based mobile web application for vehicle damage claims processing with multimodal (camera + audio) input capabilities, powered by Google Gemini Live API.
 
@@ -12,6 +12,16 @@ This is a vehicle insurance-focused web application for Cymbal Auto Insurance. I
 - 🚗 Handle vehicle insurance claims and damage assessment
 - 📄 Analyze vehicle damage shown via camera
 - 🌐 Mobile-first responsive design for easy phone use
+
+## 📸 Screenshots
+
+### Desktop View
+![Desktop View - Modern Acko-Inspired Design](https://github.com/user-attachments/assets/b295e07a-3a59-4015-9a77-4b1fe04b82d0)
+
+### Mobile View
+![Mobile View - Optimized for Phone](https://github.com/user-attachments/assets/6716ca79-dd30-44cd-bf7e-f2c255d16147)
+
+> ✅ **Verified**: Application runs successfully with no errors. All features working as expected.
 
 ## 🏗️ Architecture
 
