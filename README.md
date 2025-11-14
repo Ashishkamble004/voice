@@ -186,7 +186,7 @@ This will start a voice assistant that listens to your microphone and responds w
 
 For detailed documentation, see:
 - [Live API Documentation](live-api/README.md)
-- [Deployment Guide](live-api/app/server/DEPLOYMENT.md) (if available)
+- [Deployment Guide](live-api/app/server/DEPLOYMENT.md)
 
 ## 🤝 Contributing
 
