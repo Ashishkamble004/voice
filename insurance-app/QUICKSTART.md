@@ -29,7 +29,7 @@ gcloud auth application-default login
 python server.py
 ```
 
-The server will start on `ws://0.0.0.0:8080`
+The server will start on `ws://0.0.0.0:8765`
 
 **Note your computer's IP address** (e.g., `192.168.1.100`) - you'll need this for mobile access.
 
@@ -43,9 +43,9 @@ cd insurance-app
 npm install
 
 # Create .env file
-echo "REACT_APP_WS_URL=ws://YOUR_COMPUTER_IP:8080" > .env
+echo "REACT_APP_WS_URL=ws://YOUR_COMPUTER_IP:8765" > .env
 # Replace YOUR_COMPUTER_IP with your actual IP address
-# Example: REACT_APP_WS_URL=ws://192.168.1.100:8080
+# Example: REACT_APP_WS_URL=ws://192.168.1.100:8765
 
 # Start development server
 npm start
@@ -96,9 +96,9 @@ The app will be available at `http://localhost:3000`
 
 **Error: "Failed to connect to server"**
 - Verify backend is running
-- Check firewall settings allow port 8080
+- Check firewall settings allow port 8765
 - Confirm IP address in .env is correct
-- Try accessing from browser: `ws://YOUR_IP:8080`
+- Try accessing from browser: `ws://YOUR_IP:8765`
 
 **Error: "Camera/Microphone permission denied"**
 - Browser settings → Site permissions → Allow camera/microphone

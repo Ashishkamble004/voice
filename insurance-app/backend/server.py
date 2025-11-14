@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT', 'general-ak')
 GOOGLE_CLOUD_LOCATION = os.getenv('GOOGLE_CLOUD_LOCATION', 'us-central1')
 GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-live-2.5-flash-preview-native-audio-09-2025')
-WEBSOCKET_PORT = int(os.getenv('WEBSOCKET_PORT', '8080'))
+WEBSOCKET_PORT = int(os.getenv('WEBSOCKET_PORT', '8765'))
 
 # Audio Configuration
 AUDIO_FORMAT = pyaudio.paInt16

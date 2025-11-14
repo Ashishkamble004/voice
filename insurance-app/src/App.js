@@ -61,7 +61,7 @@ function App() {
   // Connect to WebSocket server
   const connectWebSocket = (stream) => {
     // For development, you can replace with your backend URL
-    const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8080';
+    const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8765';
     
     try {
       const ws = new WebSocket(wsUrl);

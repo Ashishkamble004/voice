@@ -1,0 +1,60 @@
+steps:
+  # Get the backend URL from Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Get the backend service URL
+        BACKEND_URL=$(gcloud run services describe cymbal-auto-backend \
+          --region=us-central1 \
+          --format='value(status.url)' \
+          --project=$PROJECT_ID)
+        
+        # Convert https:// to wss:// for WebSocket
+        WS_URL=$(echo $BACKEND_URL | sed 's/https:/wss:/')
+        
+        # Save to file for next step
+        echo "REACT_APP_WS_URL=$WS_URL" > .env.production
+        echo "Backend WebSocket URL: $WS_URL"
+    id: 'get-backend-url'
+
+  # Build the container image with build arg
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/cymbal-auto-insurance/insurance-frontend:latest'
+      - '--build-arg'
+      - 'REACT_APP_WS_URL=$(cat .env.production | cut -d= -f2)'
+      - '.'
+    id: 'build-image'
+
+  # Push the container image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/cymbal-auto-insurance/insurance-frontend:latest']
+    id: 'push-image'
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'cymbal-auto-frontend'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/cymbal-auto-insurance/insurance-frontend:latest'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--port=80'
+      - '--allow-unauthenticated'
+      - '--min-instances=0'
+      - '--max-instances=5'
+      - '--memory=512Mi'
+      - '--cpu=1'
+    id: 'deploy-frontend'
+
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/cymbal-auto-insurance/insurance-frontend:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
